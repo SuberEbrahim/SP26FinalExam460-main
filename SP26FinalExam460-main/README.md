@@ -1,7 +1,7 @@
 # The Torchbearer
 
-**Student Name:** ___________________________
-**Student ID:** ___________________________
+**Student Name:** _Suber Ebrahim_
+**Student ID:** _827410383_
 **Course:** CS 460 – Algorithms | Spring 2026
 
 > This README is your project documentation. Write it the way a developer would document
@@ -17,13 +17,14 @@
 > per question. Each bullet should be 1-2 sentences max.
 
 - **Why a single shortest-path run from S is not enough:**
-  _Your answer here._
+  _Dijkstra's finds the shortest path to each node independently
+  but cannot account for the requirement to visit all relics in a specific sequence._
 
 - **What decision remains after all inter-location costs are known:**
-  _Your answer here._
+  _The optimal order of relic collection that minimizes the cumulative fuel cost before heading to the exit is determined_
 
 - **Why this requires a search over orders (one sentence):**
-  _Your answer here._
+  _Because the graph is directed and has many stops, we must explore different sequences to find the minimum fuel cost path._
 
 ---
 
@@ -35,8 +36,8 @@
 
 | Source Node Type | Why it is a source |
 |---|---|
-| _node type_ | _one-line reason_ |
-| _node type_ | _one-line reason_ |
+| _node S_ | _To find the shortest fuel cost from the start to the first relic in any possible sequence_ |
+| _node M_ | _To find paths between relics and from the final relic to the exit node T_ |
 
 ### Part 2b: Distance Storage
 
@@ -44,20 +45,20 @@
 
 | Property | Your answer |
 |---|---|
-| Data structure name | |
-| What the keys represent | |
-| What the values represent | |
-| Lookup time complexity | |
-| Why O(1) lookup is possible | |
+| Data structure name | Nested Dictionary |
+| What the keys represent | Outer keys, source nodes, Inner keys, destination nodes |
+| What the values represent | The minimum fuel cost to travel from source to destination |
+| Lookup time complexity | O(1) average case|
+| Why O(1) lookup is possible | Python dictionaries use hash tables, allowing instant access to values via keys |
 
 ### Part 2c: Precomputation Complexity
 
 > State the total complexity and show the arithmetic. Two to three lines max.
 
-- **Number of Dijkstra runs:** _your answer_
-- **Cost per run:** _your answer_
-- **Total complexity:** _your answer_
-- **Justification (one line):** _your answer_
+- **Number of Dijkstra runs: _K + 1_
+- **Cost per run: _O(m log n)_
+- **Total complexity: _O((K + 1) * m log n)_
+- **Justification (one line): _We run Dijkstra once for the entrance and once for each of the $k$ relic chambers to map all possible starting points_
 
 ---
 

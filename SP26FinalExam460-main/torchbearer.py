@@ -2,8 +2,8 @@
 CS 460 – Algorithms: Final Programming Assignment
 The Torchbearer
 
-Student Name: ___________________________
-Student ID:   ___________________________
+Student Name: _Suber Ebrahim_
+Student ID:   _827410383_
 
 INSTRUCTIONS
 ------------
@@ -34,7 +34,14 @@ def explain_problem():
 
     TODO
     """
-    return "TODO"
+    return """
+    - Dijkstra's finds the shortest path to each node independently
+      but cannot account for the requirement to visit all relics in a specific sequence.
+    - The optimal order of relic collection that minimizes the cumulative fuel cost 
+      before heading to the exit is determined.
+    - Because the graph is directed and has many stops, we must explore different sequences
+      to find the minimum fuel cost path.
+    """
 
 
 # =============================================================================
@@ -43,59 +50,56 @@ def explain_problem():
 
 def select_sources(spawn, relics, exit_node):
     """
-    Parameters
-    ----------
-    spawn : node
-    relics : list[node]
-    exit_node : node
-
-    Returns
-    -------
-    list[node]
-        No duplicates. Order does not matter.
-
-    TODO
+    Identifies the starting nodes for Dijkstra. 
+    Includes the spawn point and all relic locations.
     """
-    pass
+    #creates a set containing the spawn and all nodes in the relics list
+    sources_set = {spawn} | set(relics)
+    return list(sources_set)
 
 
 def run_dijkstra(graph, source):
     """
-    Parameters
-    ----------
-    graph : dict[node, list[tuple[node, int]]]
-        graph[u] = [(v, cost), ...]. All costs are nonnegative integers.
-    source : node
-
-    Returns
-    -------
-    dict[node, float]
-        Minimum cost from source to every node in graph.
-        Unreachable nodes map to float('inf').
-
-    TODO
+    Finds the minimum fuel cost from the source to every node
     """
-    pass
+    distances = {node: float('inf') for node in graph}
+    distances[source] = 0
+    
+    #priority queue stores (distance, node)
+    pq = [(0, source)]
+    
+    while pq:
+        current_dist, u = heapq.heappop(pq)
+        
+        #skip if already found a better path
+        if current_dist > distances[u]:
+            continue
+            
+        #check edges and relax distances
+        for v, weight in graph.get(u, []):
+            distance = current_dist + weight
+            if distance < distances[v]:
+                distances[v] = distance
+                heapq.heappush(pq, (distance, v))
+                
+    return distances
+    
 
 
 def precompute_distances(graph, spawn, relics, exit_node):
     """
-    Parameters
-    ----------
-    graph : dict[node, list[tuple[node, int]]]
-    spawn : node
-    relics : list[node]
-    exit_node : node
-
-    Returns
-    -------
-    dict[node, dict[node, float]]
-        Nested structure supporting dist_table[u][v] lookups
-        for every source u your design requires.
-
-    TODO
+    Runs Dijkstra from every source node and stores the results
+    in a nested dictionary (dist_table).
     """
-    pass
+ 
+    sources = select_sources(spawn, relics, exit_node)
+    dist_table = {}
+    
+    for s in sources:
+        dist_table[s] = run_dijkstra(graph, s)
+        
+    return dist_table
+
 
 
 # =============================================================================
@@ -212,7 +216,16 @@ def solve(graph, spawn, relics, exit_node):
 
     TODO
     """
-    pass
+ 
+    dist_table = precompute_distances(graph, spawn, relics, exit_node)
+    
+    print(f"\nDEBUG DATA:")
+    print(f"Sources mapped: {list(dist_table.keys())}")
+    for r in relics:
+        cost = dist_table[spawn].get(r, 'Unreachable')
+        print(f"Shortest path S -> {r}: {cost}")
+    
+    return float('inf'), []
 
 
 # =============================================================================
