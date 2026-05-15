@@ -9,7 +9,7 @@
 ## Entry 1 – [05/10]: Initial Plan
 
 _Before writing any code I plan to divide the ssignment into smaller segments and focus all my attention and work back and fouth between code and readME leaving the notes for logs in the commits
- for this porblem i will first build a good understanding of the Dijkstra's algorithm and the optimal algorithm and how there differences come about in finite code,  unlike the theory full infinity 
+ for this porblem I will first build a good understanding of the Dijkstra's algorithm and the optimal algorithm and how there differences come about in finite code,  unlike the theory full infinity 
  discussed before in class. I also need to figure out how to work with github because I only have one repository and assigment requires several steps to just set up.
  I expect the hardest part of this assginment to be setting up the correct git and ide both of which I'm not familair with. I also expect Dijkstra's to be a hard part of this assignment._
 
@@ -17,15 +17,15 @@ _Before writing any code I plan to divide the ssignment into smaller segments an
 
 ## Entry 2 – [05/13-14]: [Issues with output]
 
-_Because i was unfamiliar with coding in python it was hard to learn and follow the logic. As a result after completing part 1 and 2 for hours I was stuck trying to see the output of that. 
- I later found that i needed to edit solve to see output. also pop up window threw me off I'm more familiar with console outputs._
+_Because I was unfamiliar with coding in python it was hard to learn and follow the logic. As a result after completing part 1 and 2 for hours I was stuck trying to see the output of that. 
+ I later found that I needed to edit solve to see output. also pop up window threw me off I'm more familiar with console outputs._
 
 
 
 ## Entry 3 – [05/14]: [Short description]
 
-_I divided the project into two parts while planning Dijkstra's part and non Dijkstra's part because i was sturggling with the theory a bit i mapped out a grpah for dijstras and I found out the reason it wasn't easy for me
- was because i didn't realize Dijkstra's was a greedy algorithm, it was obvious but even after understanding its logic I didnt make the connection that it was a locally optimal greedy algorithm. After making this connection
+_I divided the project into two parts while planning Dijkstra's part and non Dijkstra's part because I was sturggling with the theory a bit I mapped out a grpah for dijstras and I found out the reason it wasn't easy for me
+ was because I didn't realize Dijkstra's was a greedy algorithm, it was obvious but even after understanding its logic I didnt make the connection that it was a locally optimal greedy algorithm. After making this connection
  I understood the need for an optimal algorithm better_
 
 
