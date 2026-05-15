@@ -58,7 +58,7 @@
 - **Number of Dijkstra runs: _K + 1_
 - **Cost per run: _O(m log n)_
 - **Total complexity: _O((K + 1) * m log n)_
-- **Justification (one line): _We run Dijkstra once for the entrance and once for each of the $k$ relic chambers to map all possible starting points_
+- **Justification (one line): _We run Dijkstra once for the entrance and once for each of the k relic chambers to map all possible starting points_
 
 ---
 
@@ -73,29 +73,32 @@
 > Do not copy the invariant text from the spec.
 
 - **For nodes already finalized (in S):**
-  _Your answer here._
+  _The distance value is the true, absolute shortest path from the source, and it will not be updated again._
 
 - **For nodes not yet finalized (not in S):**
-  _Your answer here._
+  _The distance value is the length of the shortest known path from the source using only finalized nodes as intermediate steps._
 
 ### Part 3b: Why Each Phase Holds
 
 > One to two bullets per phase. Maintenance must mention nonnegative edge weights.
 
 - **Initialization : why the invariant holds before iteration 1:**
-  _Your answer here._
+  _Only the source is set to 0 and all others to infinity, which is correct since no edges have been explored yet._
 
 - **Maintenance : why finalizing the min-dist node is always correct:**
-  _Your answer here._
+  _Because edge weights are nonnegative, the node with the minimum distance in the priority queue cannot be reached
+  through any other node with smaller total cost._
 
 - **Termination : what the invariant guarantees when the algorithm ends:**
-  _Your answer here._
+  _When the priority queue is empty, the invariant ensures that every reachable node has been finalized with its minimum distance._
 
 ### Part 3c: Why This Matters for the Route Planner
 
 > One sentence connecting correct distances to correct routing decisions.
 
-_Your answer here._
+_The whole search for the relics depends on these costs being the absolute minimum, 
+If the distances from Dijkstra are wrong, the search part won't work right because 
+it will pick a path it thinks is the cheapest when it actually isn't._
 
 ---
 
@@ -106,17 +109,22 @@ _Your answer here._
 > State the failure mode. Then give a concrete counter-example using specific node names
 > or costs (you may use the illustration example from the spec). Three to five bullets.
 
-- **The failure mode:** _Your answer here._
-- **Counter-example setup:** _Your answer here._
-- **What greedy picks:** _Your answer here._
-- **What optimal picks:** _Your answer here._
-- **Why greedy loses:** _Your answer here._
+- **The failure mode:** _A greedy strategy always moves to the nearest uncollected relic,
+    which ignores how that choice impacts the cost of reaching the remaining relics or the exit._
+- **Counter-example setup:** _Using the spec example, starting at S, the distances to relics are B = 1, C = 2, and D = 2__
+- **What greedy picks:** _Greedy picks B first because it is the closest to S. However,
+  from B, the paths to C or D might be significantly more expensive down the line._
+- **What optimal picks:** _Unlike greedy optimal picks globally cheap choices rather than locally cheap
+  meaning it may choose to go to C or D because they might lead to cheaper overall cost later on.._
+- **Why greedy loses:** _Greedy loses because it makes a "local" decision that results in a "global" fuel penalty,   
+  potentially doubling back through expensive edges to finish the mission, or in the case of directed grpah going to deadends._
 
 ### What the Algorithm Must Explore
 
 > One bullet. Must use the word "order."
 
-- _Your answer here._
+- _The algorithm must explore every possible order of relic collection to identify the sequence that results 
+  in the mininmum total fuel cost_
 
 ---
 

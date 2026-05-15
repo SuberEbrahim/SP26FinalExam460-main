@@ -116,7 +116,21 @@ def dijkstra_invariant_check():
 
     TODO
     """
-    return "TODO"
+    return """
+    - For finalized nodes the distance value is the true, absolute shortest path from the source,
+      and it will not be updated again.
+    - For non finalized nodes The distance value the shortest known path
+      from the source using only finalized nodes as intermediate steps.
+    - Initialization: Only the source is set to 0 and all others to infinity,
+      which is correct since no edges have been explored yet.
+    - Maintenance: Because edge weights are nonnegative, the node with the minimum distance
+      in the priority queue cannot be reached through any other node with smaller total cost.
+    - Termination: When the priority queiFe is empty, the invariant ensures that every 
+      reachable node has been finalized with its minimum distance.
+    - Connection: The whole search for the relics depends on these costs being the absolute minimum, 
+      If the distances from Dijkstra are wrong, the search part won't work right because 
+      it will pick a path it thinks is the cheapest when it actually isn't.
+    """
 
 
 # =============================================================================
@@ -125,15 +139,24 @@ def dijkstra_invariant_check():
 
 def explain_search():
     """
-    Returns
-    -------
-    str
-        Your Part 4 README answers, written as a string.
-        Must match what you wrote in README Part 4.
-
-    TODO
+    Part 4 answers as string
     """
-    return "TODO"
+    return """
+    - Greedy fails: _A greedy strategy always moves to the nearest uncollected relic,
+      which ignores how that choice impacts the cost of reaching the remaining relics or the exit._
+    - Counter example setup: _Using the spec example, starting at S, the distances to relics are B = 1, C = 2, and D = 2__
+    - Greedy Choices: _Greedy picks B first because it is the closest to S. However,
+      from B, the paths to C or D might be significantly more expensive down the line._
+    - Optimal Choices: _Unlike greedy optimal picks globally cheap choices rather than locally cheap
+      meaning it may choose to go to C or D because they might lead to cheaper overall cost later on.._
+    - Greedy Loses: _Greedy loses because it makes a "local" decision that results in a "global" fuel penalty,   
+      potentially doubling back through expensive edges to finish the mission, or in the case of directed grpah going to deadends._
+
+    - Algorithm Explore:  _The algorithm must explore every possible order of relic collection to identify the sequence that results 
+      in the mininmum total fuel cost_
+
+
+    """
 
 
 # =============================================================================
