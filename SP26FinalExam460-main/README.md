@@ -115,7 +115,7 @@ it will pick a path it thinks is the cheapest when it actually isn't._
 - **What greedy picks:** _Greedy picks B first because it is the closest to S. However,
   from B, the paths to C or D might be significantly more expensive down the line._
 - **What optimal picks:** _Unlike greedy optimal picks globally cheap choices rather than locally cheap
-  meaning it may choose to go to C or D because they might lead to cheaper overall cost later on.._
+  meaning it may choose to go to C or D because they might lead to cheaper overall cost later on._
 - **Why greedy loses:** _Greedy loses because it makes a "local" decision that results in a "global" fuel penalty,   
   potentially doubling back through expensive edges to finish the mission, or in the case of directed grpah going to deadends._
 
@@ -137,9 +137,9 @@ it will pick a path it thinks is the cheapest when it actually isn't._
 
 | Component | Variable name in code | Data type | Description |
 |---|---|---|---|
-| Current location | | | |
-| Relics already collected | | | |
-| Fuel cost so far | | | |
+| Current location | current_loc | str | current location of torchbearer |
+| Relics already collected | relics_remaining | set | a collection of the relic nodes no visted so far |
+| Fuel cost so far | cost_so_far | float | the total fuel spent to reach current node |
 
 ### Part 5b: Data Structure for Visited Relics
 
@@ -147,18 +147,18 @@ it will pick a path it thinks is the cheapest when it actually isn't._
 
 | Property | Your answer |
 |---|---|
-| Data structure chosen | |
-| Operation: check if relic already collected | Time complexity: |
-| Operation: mark a relic as collected | Time complexity: |
-| Operation: unmark a relic (backtrack) | Time complexity: |
-| Why this structure fits | |
+| Data structure chosen | set |
+| Operation: check if relic already collected | Time complexity: O(1) |
+| Operation: mark a relic as collected | Time complexity: O(1)|
+| Operation: unmark a relic (backtrack) | Time complexity: O(1)|
+| Why this structure fits | a set allows for very fast lookups ensuring search doesn slow down as number of relics increases |
 
 ### Part 5c: Worst-Case Search Space
 
 > Two bullets.
 
-- **Worst-case number of orders considered:** _Your answer (in terms of k)._
-- **Why:** _One-line justification._
+- **Worst-case number of orders considered:** _O(k!)_
+- **Why:** _ther are k! possible orderings in which k relics can be visted._
 
 ---
 
@@ -168,23 +168,24 @@ it will pick a path it thinks is the cheapest when it actually isn't._
 
 > Three bullets.
 
-- **What is tracked:** _Your answer here._
-- **When it is used:** _Your answer here._
-- **What it allows the algorithm to skip:** _Your answer here._
+- **What is tracked:** _We track the lowest total fuel cost found for any complete valid route from start to all relics to exit._
+- **When it is used:** _It is checked at the start of every recursive call to compare the cost_so_far against the current record._
+- **What it allows the algorithm to skip:** _It allows it to stop exploring any partial path that is already as expensive as known path._
 
 ### Part 6b: Lower Bound Estimation
 
 > Three bullets.
 
-- **What information is available at the current state:** _Your answer here._
-- **What the lower bound accounts for:** _Your answer here._
-- **Why it never overestimates:** _Your answer here._
+- **What information is available at the current state:** _The cost_so_far, the current_loc, and which relics are still in relics_remaining._
+- **What the lower bound accounts for:** _cost_so_far is the lowerbound because fuel cannot be less than what is already spent at the current moment so far._
+- **Why it never overestimates:** _Because all edge weights are positive the current cost is the absolute minimum the final path could possibly be._
 
 ### Part 6c: Pruning Correctness
 
 > One to two bullets. Explain why pruning is safe.
 
-- _Your answer here._
+- _Pruning is safe because if current cost already more than or equal to out best complete path while we have remaining relics, there is no reason to keepe going
+   so terminaitng ensures only minimum cost is considered._
 
 ---
 

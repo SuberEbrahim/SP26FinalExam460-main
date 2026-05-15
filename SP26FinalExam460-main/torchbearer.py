@@ -183,7 +183,14 @@ def find_optimal_route(dist_table, spawn, relics, exit_node):
 
     TODO
     """
-    pass
+   
+    best = [float('inf'), []]
+    #using a set for remaining relics
+    relics_remaining = set(relics)
+    #recursive search.
+    _explore(dist_table, spawn, relics_remaining, [], 0, exit_node, best)
+    
+    return tuple(best)
 
 
 def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
@@ -215,7 +222,37 @@ def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
     explaining why it is safe (cannot skip the optimal solution).
     This comment is graded.
     """
-    pass
+    #PRUNING: It is safe to prune and skip because fuel costs are non negative.
+    #if more fuel than the best path is already spent algorithm can't find anything better.
+    if cost_so_far >= best[0]:
+        return
+    #base case no relics left
+    if len(relics_remaining) == 0:
+      
+        dist_to_exit = dist_table[current_loc].get(exit_node, float('inf'))
+        total_trip_cost = cost_so_far + dist_to_exit
+        
+        #update best cost
+        if total_trip_cost < best[0]:
+            best[0] = total_trip_cost
+            best[1] = list(relics_visited_order)
+        return
+
+    #recursuve case tries all the relics left
+    for next_relic in sorted(list(relics_remaining)):
+        cost_to_next = dist_table[current_loc].get(next_relic, float('inf'))
+        
+        
+        if cost_to_next != float('inf'):
+            relics_remaining.remove(next_relic)
+            relics_visited_order.append(next_relic)
+            _explore(dist_table, next_relic, relics_remaining, 
+                     relics_visited_order, cost_so_far + cost_to_next, 
+                     exit_node, best)
+            
+           #backtracking
+            relics_visited_order.pop()
+            relics_remaining.add(next_relic)
 
 
 # =============================================================================
@@ -242,13 +279,15 @@ def solve(graph, spawn, relics, exit_node):
  
     dist_table = precompute_distances(graph, spawn, relics, exit_node)
     
+    #printout of code to see progress for part 2
     print(f"\nDEBUG DATA:")
     print(f"Sources mapped: {list(dist_table.keys())}")
     for r in relics:
         cost = dist_table[spawn].get(r, 'Unreachable')
         print(f"Shortest path S -> {r}: {cost}")
     
-    return float('inf'), []
+    return find_optimal_route(dist_table, spawn, relics, exit_node)
+
 
 
 # =============================================================================
