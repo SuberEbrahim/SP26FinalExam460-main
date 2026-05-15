@@ -4,17 +4,9 @@
 **Student ID:** _827410383_
 **Course:** CS 460 – Algorithms | Spring 2026
 
-> This README is your project documentation. Write it the way a developer would document
-> their design decisions , bullet points, brief justifications, and concrete examples where
-> required. You are not writing an essay. You are explaining what you built and why you built
-> it that way. Delete all blockquotes like this one before submitting.
 
----
 
 ## Part 1: Problem Analysis
-
-> Document why this problem is not just a shortest-path problem. Three bullet points, one
-> per question. Each bullet should be 1-2 sentences max.
 
 - **Why a single shortest-path run from S is not enough:**
   _Dijkstra's finds the shortest path to each node independently
@@ -26,25 +18,21 @@
 - **Why this requires a search over orders (one sentence):**
   _Because the graph is directed and has many stops, we must explore different sequences to find the minimum fuel cost path._
 
----
+
 
 ## Part 2: Precomputation Design
 
 ### Part 2a: Source Selection
 
-> List the source node types as a bullet list. For each, one-line reason.
-
 | Source Node Type | Why it is a source |
-|---|---|
+|||
 | _node S_ | _To find the shortest fuel cost from the start to the first relic in any possible sequence_ |
 | _node M_ | _To find paths between relics and from the final relic to the exit node T_ |
 
 ### Part 2b: Distance Storage
 
-> Fill in the table. No prose required.
-
 | Property | Your answer |
-|---|---|
+|||
 | Data structure name | Nested Dictionary |
 | What the keys represent | Outer keys, source nodes, Inner keys, destination nodes |
 | What the values represent | The minimum fuel cost to travel from source to destination |
@@ -53,24 +41,16 @@
 
 ### Part 2c: Precomputation Complexity
 
-> State the total complexity and show the arithmetic. Two to three lines max.
-
 - **Number of Dijkstra runs: _K + 1_
 - **Cost per run: _O(m log n)_
 - **Total complexity: _O((K + 1) * m log n)_
 - **Justification (one line): _We run Dijkstra once for the entrance and once for each of the k relic chambers to map all possible starting points_
 
----
+
 
 ## Part 3: Algorithm Correctness
 
-> Document your understanding of why Dijkstra produces correct distances.
-> Bullet points and short sentences throughout. No paragraphs.
-
 ### Part 3a: What the Invariant Means
-
-> Two bullets: one for finalized nodes, one for non-finalized nodes.
-> Do not copy the invariant text from the spec.
 
 - **For nodes already finalized (in S):**
   _The distance value is the true, absolute shortest path from the source, and it will not be updated again._
@@ -79,8 +59,6 @@
   _The distance value is the length of the shortest known path from the source using only finalized nodes as intermediate steps._
 
 ### Part 3b: Why Each Phase Holds
-
-> One to two bullets per phase. Maintenance must mention nonnegative edge weights.
 
 - **Initialization : why the invariant holds before iteration 1:**
   _Only the source is set to 0 and all others to infinity, which is correct since no edges have been explored yet._
@@ -94,20 +72,15 @@
 
 ### Part 3c: Why This Matters for the Route Planner
 
-> One sentence connecting correct distances to correct routing decisions.
-
 _The whole search for the relics depends on these costs being the absolute minimum, 
 If the distances from Dijkstra are wrong, the search part won't work right because 
 it will pick a path it thinks is the cheapest when it actually isn't._
 
----
+
 
 ## Part 4: Search Design
 
 ### Why Greedy Fails
-
-> State the failure mode. Then give a concrete counter-example using specific node names
-> or costs (you may use the illustration example from the spec). Three to five bullets.
 
 - **The failure mode:** _A greedy strategy always moves to the nearest uncollected relic,
     which ignores how that choice impacts the cost of reaching the remaining relics or the exit._
@@ -121,32 +94,25 @@ it will pick a path it thinks is the cheapest when it actually isn't._
 
 ### What the Algorithm Must Explore
 
-> One bullet. Must use the word "order."
-
 - _The algorithm must explore every possible order of relic collection to identify the sequence that results 
   in the mininmum total fuel cost_
 
----
+
 
 ## Part 5: State and Search Space
 
 ### Part 5a: State Representation
 
-> Document the three components of your search state as a table.
-> Variable names here must match exactly what you use in torchbearer.py.
-
 | Component | Variable name in code | Data type | Description |
-|---|---|---|---|
+|||||
 | Current location | current_loc | str | current location of torchbearer |
 | Relics already collected | relics_remaining | set | a collection of the relic nodes no visted so far |
 | Fuel cost so far | cost_so_far | float | the total fuel spent to reach current node |
 
 ### Part 5b: Data Structure for Visited Relics
 
-> Fill in the table.
-
 | Property | Your answer |
-|---|---|
+|||
 | Data structure chosen | set |
 | Operation: check if relic already collected | Time complexity: O(1) |
 | Operation: mark a relic as collected | Time complexity: O(1)|
@@ -155,18 +121,14 @@ it will pick a path it thinks is the cheapest when it actually isn't._
 
 ### Part 5c: Worst-Case Search Space
 
-> Two bullets.
-
 - **Worst-case number of orders considered:** _O(k!)_
 - **Why:** _ther are k! possible orderings in which k relics can be visted._
 
----
+
 
 ## Part 6: Pruning
 
 ### Part 6a: Best-So-Far Tracking
-
-> Three bullets.
 
 - **What is tracked:** _We track the lowest total fuel cost found for any complete valid route from start to all relics to exit._
 - **When it is used:** _It is checked at the start of every recursive call to compare the cost_so_far against the current record._
@@ -174,23 +136,21 @@ it will pick a path it thinks is the cheapest when it actually isn't._
 
 ### Part 6b: Lower Bound Estimation
 
-> Three bullets.
-
 - **What information is available at the current state:** _The cost_so_far, the current_loc, and which relics are still in relics_remaining._
 - **What the lower bound accounts for:** _cost_so_far is the lowerbound because fuel cannot be less than what is already spent at the current moment so far._
 - **Why it never overestimates:** _Because all edge weights are positive the current cost is the absolute minimum the final path could possibly be._
 
 ### Part 6c: Pruning Correctness
 
-> One to two bullets. Explain why pruning is safe.
-
 - _Pruning is safe because if current cost already more than or equal to out best complete path while we have remaining relics, there is no reason to keepe going
    so terminaitng ensures only minimum cost is considered._
 
----
+
 
 ## References
 
-> Bullet list. If none beyond lecture notes, write that.
-
-- _Your references here._
+- _Dijkstra's Algorithm Visualized and Explained: https://www.youtube.com/watch?v=71Z-Jpnm3D4_
+- _Shortest Path Algorithms Explained: https://www.youtube.com/watch?v=j0OUwduDOS0_
+- _Lecture 20, May 9: https://www.cs.dartmouth.edu/~thc/cs10/lectures/0509/0509.html_
+- _Greedy algorithm tutorial:  https://www.geeksforgeeks.org/dsa/greedy-algorithms/_
+- _Depth-First Search (DFS) with Backtracking and Pruning: https://www.geeksforgeeks.org/dsa/depth-first-search-or-dfs-for-a-graph/_
